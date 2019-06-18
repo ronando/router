@@ -1,0 +1,19 @@
+apply plugin: 'groovy'
+
+version = version_name
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+
+    implementation "com.android.tools.build:gradle:${android_gradle_version}"
+}
+
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+}
+
+
+apply from: '../gradle-maven-push.gradle'

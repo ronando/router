@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.crgt.demorouter.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="简单的 Activity 跳转"
+            android:onClick="gotoSimpleActivity" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="跳转 Activity ForResult"
+            android:onClick="gotoActivityForResult" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="跳转 Activity with Fragment"
+            android:onClick="gotoActivityWithFragment" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="跳转跨模块 Activity"
+            android:onClick="gotoActivityOtherModule" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="跳转不存在 Activity"
+            android:onClick="gotoNotExistActivity" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试 Activity 拦截"
+            android:onClick="gotoInterceptActivity" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取 Fragment 实例"
+            android:onClick="gotoGetFragment" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取 Service"
+            android:onClick="gotoGetService" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="crgt://photo_detail?photo_id=123"
+            android:onClick="gotoProtocol" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自动填充参数后跳转"
+            android:onClick="autoFillParam" />
+
+    </LinearLayout>
+</ScrollView>

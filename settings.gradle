@@ -1,0 +1,3 @@
+include ':demo.router', ':router-api', ':router-annotation', ':router-compiler', ':demo.routerModule', ':router-plugin'
+
+

@@ -17,7 +17,7 @@ import java.util.List;
  * Created by lujie on 2019/6/13.
  * jesse.lu@crgecent.com
  */
-public abstract class ParamAutoFillInterceptor implements RouterInterceptor {
+public class ParamAutoFillInterceptor implements RouterInterceptor {
 
     private IParamInterruptSpec interruptSpec;
 

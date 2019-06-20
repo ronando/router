@@ -88,13 +88,13 @@ public class ParamAutoFillInterceptor implements RouterInterceptor {
 
     private void provideParam(final List<MethodPostcard> methodPostcards, final int index, final Callback callback) {
         MethodPostcard methodPostcard = methodPostcards.get(index);
-        methodPostcard.setCallback(new RouterInterceptor.Callback() {
+        Callback methodCallback = new RouterInterceptor.Callback() {
             @Override
             public void onContinue() {
                 if (index == methodPostcards.size() - 1) {
                     callback.onContinue();
                 } else {
-                    provideParam(methodPostcards, index + 1, callback);
+                    provideParam(methodPostcards, index + 1, this);
                 }
             }
 
@@ -102,7 +102,8 @@ public class ParamAutoFillInterceptor implements RouterInterceptor {
             public void onIntercept() {
                 callback.onIntercept();
             }
-        });
+        };
+        methodPostcard.setCallback(methodCallback);
         ParamMethodInvoker.invoke(methodPostcard);
     }
 

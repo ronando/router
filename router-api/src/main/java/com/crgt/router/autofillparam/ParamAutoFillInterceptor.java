@@ -94,7 +94,7 @@ public class ParamAutoFillInterceptor implements RouterInterceptor {
                 if (index == methodPostcards.size() - 1) {
                     callback.onContinue();
                 } else {
-                    provideParam(methodPostcards, index + 1, this);
+                    provideParam(methodPostcards, index + 1, callback);
                 }
             }
 

@@ -23,3 +23,9 @@
 -keep class com.crgt.router.RouterPath
 -keep class com.crgt.router.RouterParam
 -keep @com.crgt.router.RouterPath public class *
+-keep class * implements com.crgt.router.autofillparam.IParamProvider{
+  void provideParam(...);
+}
+-keep class com.crgt.router.autofillparam.IParamProvider{
+  void provideParam(...);
+}

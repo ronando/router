@@ -21,7 +21,6 @@ public class ParamMethodInvoker {
             m.invoke(o, methodPostcard);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
             //异常后唤起下一个method
             methodPostcard.setResult(true);
         }

@@ -14,6 +14,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -188,7 +189,10 @@ public class ParamBuilder {
         Iterator<String> iterator = keys.iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
-            this.withString(key, uri.getQueryParameter(key));
+            List<String> values = uri.getQueryParameters(key);
+            if (values != null && values.size() > 0) {
+                this.withString(key, values.get(0));
+            }
         }
     }
 

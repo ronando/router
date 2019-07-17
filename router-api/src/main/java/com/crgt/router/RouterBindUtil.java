@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * util of auto binding bundle data
@@ -154,7 +155,11 @@ public final class RouterBindUtil {
         field.setAccessible(true);
         Class<?> type = field.getType();
 
-        String value = uri.getQueryParameter(key);
+        List<String> values = uri.getQueryParameters(key);
+        String value = null;
+        if (values != null && values.size() > 0) {
+            value = values.get(0);
+        }
         if (TextUtils.isEmpty(value)) {
             return;
         }

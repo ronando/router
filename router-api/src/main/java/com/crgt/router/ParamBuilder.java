@@ -38,7 +38,7 @@ public class ParamBuilder {
         mBundle = new Bundle();
     }
 
-    @IntDef({
+    @IntDef(flag = true,value = {
             Intent.FLAG_ACTIVITY_SINGLE_TOP,
             Intent.FLAG_ACTIVITY_NEW_TASK,
             Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
@@ -57,7 +57,15 @@ public class ParamBuilder {
             Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED,
             Intent.FLAG_ACTIVITY_REORDER_TO_FRONT,
             Intent.FLAG_ACTIVITY_TASK_ON_HOME,
-            Intent.FLAG_RECEIVER_REGISTERED_ONLY
+            Intent.FLAG_RECEIVER_REGISTERED_ONLY,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION,
+            Intent.FLAG_EXCLUDE_STOPPED_PACKAGES,
+            Intent.FLAG_INCLUDE_STOPPED_PACKAGES,
+            Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION,
+            Intent.FLAG_GRANT_PREFIX_URI_PERMISSION,
+            Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET,
+            Intent.FLAG_ACTIVITY_RETAIN_IN_RECENTS,
+            Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface FlagInt {

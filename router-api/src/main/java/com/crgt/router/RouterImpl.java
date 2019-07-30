@@ -261,7 +261,7 @@ public final class RouterImpl {
 
     private void gotoStartActivity(Context context, Intent intent, ParamBuilder param, int requestCode)
             throws IllegalArgumentException {
-        if (requestCode > 0) {
+        if (requestCode >= 0) {
             if (context instanceof Activity) {
                 ((Activity) context).startActivityForResult(intent, requestCode);
             } else {

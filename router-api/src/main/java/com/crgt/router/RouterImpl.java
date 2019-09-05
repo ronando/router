@@ -282,14 +282,12 @@ public final class RouterImpl {
             mNotFoundHandler.noActivityFound(mApplicationContext, path, errorMsg);
             return;
         }
-        Toast.makeText(mApplicationContext, "Activity not found: " + errorMsg, Toast.LENGTH_SHORT).show();
     }
 
     private Object noFragmentFound(String path, String errorMsg) {
         if (mNotFoundHandler != null) {
             return mNotFoundHandler.noFragmentFound(mApplicationContext, path, errorMsg);
         }
-        Toast.makeText(mApplicationContext, "Fragment not found: " + errorMsg, Toast.LENGTH_SHORT).show();
         return new BlankFragment();
     }
 }

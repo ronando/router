@@ -63,11 +63,8 @@ public final class RouterImpl {
         mInterceptors.add(interceptor);
     }
 
-    public void toProtocol(Context context, String protocol) {
-        toProtocol(context, protocol, null);
-    }
 
-    public void toProtocol(Context context, String protocol, ParamBuilder params) {
+    public void toProtocol(Context context, String protocol, ParamBuilder params, int requestCode) {
         if (mProtocolParser == null) {
             Log.e("Router", "Protocol Parser is null!");
             return;
@@ -85,8 +82,10 @@ public final class RouterImpl {
         ParamBuilder paramBuilder = params == null ? new ParamBuilder() : params;
         paramBuilder.setRaw(uri);
         paramBuilder.withUriParam(uri);
-        toActivity(context, path, paramBuilder);
+        toActivityForResult(context, path, paramBuilder, requestCode);
     }
+
+
 
     public String getActivityClassName(String name) {
         String result = mRosterMap.getActivityName(name);

@@ -73,11 +73,15 @@ public final class Router {
     }
 
     public static void toProtocol(Context context, String protocol) {
-        RouterImpl.getInstance().toProtocol(context, protocol);
+        toProtocol(context, protocol, null);
     }
 
     public static void toProtocol(Context context, String protocol, ParamBuilder params) {
-        RouterImpl.getInstance().toProtocol(context, protocol, params);
+        toProtocol(context, protocol, params, -1);
+    }
+
+    public static void toProtocol(Context context, String protocol, ParamBuilder params, int requestCode) {
+        RouterImpl.getInstance().toProtocol(context, protocol, params, requestCode);
     }
 
     /**

@@ -178,10 +178,10 @@ public class ParamBuilder {
     }
 
     public void toActivity(Context context, String name) {
-        RouterImpl.getInstance().toActivity(context, name, this);
+        RouterImpl.getInstance().toActivityForResult(context, name, this, -1);
     }
 
-    public void toActivityForResult(Activity context, String name, int requestCode) {
+    public void toActivityForResult(Context context, String name, int requestCode) {
         RouterImpl.getInstance().toActivityForResult(context, name, this, requestCode);
     }
 

@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +63,7 @@ public final class RouterImpl {
     }
 
 
-    public void toProtocol(Context context, String protocol, ParamBuilder params, int requestCode) {
+    public void toProtocol(Context context, String protocol, ParamBuilder params) {
         if (mProtocolParser == null) {
             Log.e("Router", "Protocol Parser is null!");
             return;
@@ -82,9 +81,8 @@ public final class RouterImpl {
         ParamBuilder paramBuilder = params == null ? new ParamBuilder() : params;
         paramBuilder.setRaw(uri);
         paramBuilder.withUriParam(uri);
-        toActivityForResult(context, path, paramBuilder, requestCode);
+        toActivityForResult(context, path, paramBuilder, parseRequestCode(paramBuilder));
     }
-
 
 
     public String getActivityClassName(String name) {
@@ -95,19 +93,7 @@ public final class RouterImpl {
         return result;
     }
 
-    public void toActivity(Context context, String name) {
-        toActivity(context, name, null);
-    }
-
-    void toActivity(Context context, String name, @Nullable ParamBuilder param) {
-        toActivityForResult(context, name, param, -1);
-    }
-
-    public void toActivityForResult(Activity context, String name, int requestCode) {
-        toActivityForResult(context, name, null, requestCode);
-    }
-
-    void toActivityForResult(final Context context, final String name, @Nullable final ParamBuilder param, final int requestCode) {
+    public void toActivityForResult(final Context context, final String name, @Nullable final ParamBuilder param, final int requestCode) {
         // do intercept
         if (mInterceptors.size() > 0) {
             doIntercept(0, context, name, param, new RouterInterceptor.Callback() {
@@ -260,6 +246,9 @@ public final class RouterImpl {
 
     private void gotoStartActivity(Context context, Intent intent, ParamBuilder param, int requestCode)
             throws IllegalArgumentException {
+        if (requestCode < 0) {//try extract requestCode from params
+            requestCode = parseRequestCode(param);
+        }
         if (requestCode >= 0) {
             if (context instanceof Activity) {
                 ((Activity) context).startActivityForResult(intent, requestCode);
@@ -288,5 +277,26 @@ public final class RouterImpl {
             return mNotFoundHandler.noFragmentFound(mApplicationContext, path, errorMsg);
         }
         return new BlankFragment();
+    }
+
+    private int parseRequestCode(ParamBuilder params) {
+        int DEFAULT_REQUEST_CODE = -1;
+        if (params == null || params.getBundle() == null) {
+            return DEFAULT_REQUEST_CODE;
+        }
+        String PARAM_REQUEST_CODE = "requestCode";
+
+        int requestCode = params.getBundle().getInt(PARAM_REQUEST_CODE, DEFAULT_REQUEST_CODE);
+        if (requestCode > 0) {
+            return requestCode;
+        } else if (!TextUtils.isEmpty(params.getBundle().getString(PARAM_REQUEST_CODE))) {
+            try {
+                return Integer.parseInt(params.getBundle().getString(PARAM_REQUEST_CODE));
+            } catch (Exception e) {
+                //do nothing
+            }
+        }
+
+        return DEFAULT_REQUEST_CODE;
     }
 }

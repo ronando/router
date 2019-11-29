@@ -1,9 +1,9 @@
 package com.crgt.router;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * 路由入口类
@@ -44,12 +44,8 @@ public final class Router {
         return RouterImpl.getInstance().getActivityClassName(name);
     }
 
-    public static void toActivity(Context context, String name) {
-        RouterImpl.getInstance().toActivity(context, name);
-    }
-
-    public static void toActivityForResult(Activity context, String name, int requestCode) {
-        RouterImpl.getInstance().toActivityForResult(context, name, requestCode);
+    public static void toActivityForResult(final Context context, final String name, @Nullable final ParamBuilder param, final int requestCode) {
+        RouterImpl.getInstance().toActivityForResult(context, name, param, requestCode);
     }
 
     public static String getServiceClassName(String name) {
@@ -72,17 +68,10 @@ public final class Router {
         return RouterImpl.getInstance().getFragmentInstance(name);
     }
 
-    public static void toProtocol(Context context, String protocol) {
-        toProtocol(context, protocol, null);
-    }
-
     public static void toProtocol(Context context, String protocol, ParamBuilder params) {
-        toProtocol(context, protocol, params, -1);
+        RouterImpl.getInstance().toProtocol(context, protocol, params);
     }
 
-    public static void toProtocol(Context context, String protocol, ParamBuilder params, int requestCode) {
-        RouterImpl.getInstance().toProtocol(context, protocol, params, requestCode);
-    }
 
     /**
      * 这个方法必须在init之后调用，如果原来存在componentName，会覆盖掉原来的activityClassName, 如果不存在，会增加一个.

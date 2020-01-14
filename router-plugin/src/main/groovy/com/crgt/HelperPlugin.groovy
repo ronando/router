@@ -1,4 +1,4 @@
-package com.crgt.router
+package com.crgt
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

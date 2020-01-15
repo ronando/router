@@ -14,6 +14,6 @@ class LauncherPlugin implements Plugin<Project> {
 
         //register this plugin
         android.registerTransform(new RouterTransform(project))
-        android.registerTransform(new ProtocolTransform(project))
+        android.registerTransform(new ProtocolTransform())
     }
 }

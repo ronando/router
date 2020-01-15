@@ -1,6 +1,5 @@
 package com.crgt.router;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,9 +19,9 @@ import java.util.Set;
 /**
  * 路由跳转参数封装类
  *
- * @author android
- * @date 2019/5/9
- * @mail android@crgecent.com
+ * @author jesse
+ * 2019/5/9
+ * jesse_lu@foxmail.com
  */
 
 public class ParamBuilder {
@@ -30,6 +29,7 @@ public class ParamBuilder {
     private Bundle mBundle;
     private Uri mRawUri;
     private int mFlag;
+    private int mRequestCode = -1;
 
     private int mEnterAnim;
     private int mExitAnim;
@@ -87,6 +87,15 @@ public class ParamBuilder {
 
     public int getFlag() {
         return mFlag;
+    }
+
+    public ParamBuilder setRequestCode(int requestCode) {
+        mRequestCode = requestCode;
+        return this;
+    }
+
+    public int getRequestCode() {
+        return mRequestCode;
     }
 
     public int getEnterAnim() {

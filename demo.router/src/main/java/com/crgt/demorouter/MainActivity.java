@@ -118,19 +118,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoActivityWithFragment(View view) {
-        Router.toActivity(this, "fragment_activity");
+        Router.toActivityForResult(this, "fragment_activity", null, -1);
     }
 
     public void gotoActivityOtherModule(View view) {
-        Router.toActivity(this, "module_test");
+        Router.toActivityForResult(this, "module_test", null, -1);
     }
 
     public void gotoNotExistActivity(View view) {
-        Router.toActivity(this, "error");
+        Router.toActivityForResult(this, "error", null, -1);
     }
 
     public void gotoInterceptActivity(View view) {
-        Router.toActivity(this, "intercept_test");
+        Router.toActivityForResult(this, "intercept_test", null, -1);
     }
 
     public void gotoGetFragment(View view) {
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoProtocol(View view) {
-        Router.toProtocol(this, "crgt://ccrgt.com/photo_detail?photo_id=123&content=hahahahaha&testBoolean=true&testFloat=3.1415");
+        Router.toProtocol(this, "crgt://ccrgt.com/photo_detail?photo_id=123&content=hahahahaha&testBoolean=true&testFloat=3.1415", null);
     }
 
     @Override
@@ -167,6 +167,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void autoFillParam(View view) {
-        Router.toProtocol(this, JumpUrlInterruptSpec.ROUTER_PROVIDR_URL);
+        Router.toProtocol(this, JumpUrlInterruptSpec.ROUTER_PROVIDR_URL, null);
     }
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">demo.moduleTest</string>
+    <string name="protocol_illegal">跳转一个非法协议\nin://xxx_non_exist</string>
+    <string name="protocol_custom">自定义协议处理器处理\nin://fragment_activity-->CustomProcessor</string>
+    <string name="protocol_custom_othermodule">其他模块协议处理器处理\nin://module2/fragment_activity --> CustomProcessor2</string>
+    <string name="protocol_default">默认协议处理器处理\nin://main --> 未设置处理器</string>
 </resources>

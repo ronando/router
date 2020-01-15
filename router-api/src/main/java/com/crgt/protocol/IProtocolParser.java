@@ -1,14 +1,13 @@
-package com.crgt.router;
+package com.crgt.protocol;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 /**
  * interface of com.crgt.protocol parser
  *
- * @author android
+ * @author jesse.lu
  * @date 2019/5/27
- * @mail android@crgecent.com
+ * @mail jesse.lu@foxmail.com
  */
 
 public interface IProtocolParser {
@@ -19,6 +18,6 @@ public interface IProtocolParser {
      * @param protocol
      * @return
      */
-    String parsePath(@NonNull Uri protocol);
+    String parsePath(Uri protocol);
 
 }

@@ -45,7 +45,7 @@ public class ParamAutoFillInterceptor implements RouterInterceptor {
         List<Uri> providers = interruptSpec.parseProviders(componentName, param);
         //安全检查:无需填充参数, 直接重定向到新页面
         if (providers == null || providers.isEmpty()) {
-            Router.toProtocol(context, newPage.toString(),null);
+            Router.toActivity(context, newPage.toString(),null);
             return;
         }
 
@@ -53,7 +53,7 @@ public class ParamAutoFillInterceptor implements RouterInterceptor {
         List<MethodPostcard> methods = genMethods(newPageParam, providers);
         //安全检查:无匹配的method, 直接重定向到新页面
         if (methods == null || methods.isEmpty()) {
-            Router.toProtocol(context, newPage.toString(),null);
+            Router.toActivity(context, newPage.toString(),null);
             return;
         }
 
@@ -62,7 +62,7 @@ public class ParamAutoFillInterceptor implements RouterInterceptor {
             @Override
             public void onContinue() {
                 //重定向
-                Router.toProtocol(context, newPage.toString(), newPageParam);
+                Router.toActivity(context, newPage.toString(), newPageParam);
             }
 
             @Override

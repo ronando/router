@@ -3,20 +3,18 @@ package com.crgt.router;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 /**
  * 路由入口类
  *
  * @author android
- * @date 2019/5/8
- * @mail android@crgecent.com
+ * 2019/5/8
+ * android@crgecent.com
  */
 
 public final class Router {
 
     public static void init(Application application) {
-        //Todo: 注册Activity生命周期回调，在Activity destroy时清空相关数据，防止内存泄漏.
         RouterImpl.getInstance().init(application);
     }
 
@@ -44,9 +42,6 @@ public final class Router {
         return RouterImpl.getInstance().getActivityClassName(name);
     }
 
-    public static void toActivityForResult(final Context context, final String name, @Nullable final ParamBuilder param, final int requestCode) {
-        RouterImpl.getInstance().toActivityForResult(context, name, param, requestCode);
-    }
 
     public static String getServiceClassName(String name) {
         return RouterImpl.getInstance().getServiceClassName(name);
@@ -68,16 +63,18 @@ public final class Router {
         return RouterImpl.getInstance().getFragmentInstance(name);
     }
 
-    public static void toProtocol(Context context, String protocol, ParamBuilder params) {
-        RouterImpl.getInstance().toProtocol(context, protocol, params);
+    /**
+     * 跳转页面
+     * @param path  跳转路径, eg.scheme://host/path  or  path only
+     */
+    public static void toActivity(Context context, String path, ParamBuilder params) {
+        RouterImpl.getInstance().toProtocol(context, path, params);
     }
 
 
     /**
      * 这个方法必须在init之后调用，如果原来存在componentName，会覆盖掉原来的activityClassName, 如果不存在，会增加一个.
      *
-     * @param componentName
-     * @param activityClassName
      */
     public static void setActivityClassName(String componentName, String activityClassName) {
         RouterImpl.getInstance().setActivityClassName(componentName, activityClassName);
@@ -86,8 +83,6 @@ public final class Router {
     /**
      * 这个方法必须在init之后调用，如果原来存在componentName，会覆盖掉原来的fragmentClassName, 如果不存在，会增加一个.
      *
-     * @param componentName
-     * @param fragmentClassName
      */
     public static void setFragmentClassName(String componentName, String fragmentClassName) {
         RouterImpl.getInstance().setFragmentClassName(componentName, fragmentClassName);

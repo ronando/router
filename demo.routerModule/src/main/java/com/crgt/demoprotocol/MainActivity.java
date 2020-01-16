@@ -33,20 +33,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoNonexistProtocol(View view) {
-        Protocol.gotoProtocol(this,"in://xxx_non_exist");
+        Protocol.gotoProtocol(this,"in://xxx_non_exist",null);
 
     }
 
     public void gotoCustomProtocol(View view) {
-        Protocol.gotoProtocol(this,"in://fragment_activity");
+        Protocol.gotoProtocol(this,"in://fragment_activity",null);
     }
 
     public void gotoOtherModuleProtocol(View view) {
-        Protocol.gotoProtocol(this,"in://module2");
+        Protocol.gotoProtocol(this,"in://module2",null);
     }
 
     public void gotoDefaultProtocol(View view) {
-        Protocol.gotoProtocol(this,"in://main");
+        Protocol.gotoProtocol(this,"in://main",null);
     }
 
     public void setPreprocessor(View view) {

@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         parcelableArrayList.add(new TestParcelable(3, "aaa"));
         parcelableArrayList.add(new TestParcelable(4, "aaaa"));
 
-        Router.buildParams()
+        ParamBuilder params = Router.buildParams()
                 .withInt("photo_id", 666)
                 .withIntArray("testIntArray", new int[]{1, 2, 3, 4, 5})
                 .withIntegerArrayList("testIntegerArrayList", integerArrayList)
@@ -108,29 +108,29 @@ public class MainActivity extends AppCompatActivity {
                 .withParcelable("testParcelable", new TestParcelable(111, "adam"))
                 .withParcelableArrayList("testParcelableArrayList", parcelableArrayList)
                 .withSerializable("testSerializable", new TestSerializable(123, "test"))
-                .withBundle("testBundle", new Bundle())
-                .toActivity(this, "photo_detail");
+                .withBundle("testBundle", new Bundle());
+        Router.toActivity(this, "photo_detail", params);
     }
 
     public void gotoActivityForResult(View view) {
-        Router.buildParams().withInt("aaa", 123)
-                .toActivityForResult(this, "photo_detail", 111);
+        ParamBuilder paramBuilder = Router.buildParams().withInt("aaa", 123);
+        Router.toActivity(this, "photo_detail", paramBuilder);
     }
 
     public void gotoActivityWithFragment(View view) {
-        Router.toActivityForResult(this, "fragment_activity", null, -1);
+        Router.toActivity(this, "fragment_activity", null);
     }
 
     public void gotoActivityOtherModule(View view) {
-        Router.toActivityForResult(this, "module_test", null, -1);
+        Router.toActivity(this, "module_test", null);
     }
 
     public void gotoNotExistActivity(View view) {
-        Router.toActivityForResult(this, "error", null, -1);
+        Router.toActivity(this, "error", null);
     }
 
     public void gotoInterceptActivity(View view) {
-        Router.toActivityForResult(this, "intercept_test", null, -1);
+        Router.toActivity(this, "intercept_test", null);
     }
 
     public void gotoGetFragment(View view) {
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoProtocol(View view) {
-        Router.toProtocol(this, "crgt://ccrgt.com/photo_detail?photo_id=123&content=hahahahaha&testBoolean=true&testFloat=3.1415", null);
+        Router.toActivity(this, "crgt://ccrgt.com/photo_detail?photo_id=123&content=hahahahaha&testBoolean=true&testFloat=3.1415", null);
     }
 
     @Override
@@ -167,6 +167,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void autoFillParam(View view) {
-        Router.toProtocol(this, JumpUrlInterruptSpec.ROUTER_PROVIDR_URL, null);
+        Router.toActivity(this, JumpUrlInterruptSpec.ROUTER_PROVIDR_URL, null);
     }
 }

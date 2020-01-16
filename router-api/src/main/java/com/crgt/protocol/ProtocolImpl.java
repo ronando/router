@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crgt.protocol.model.ProtocolMap;
+import com.crgt.router.ParamBuilder;
 
 
 class ProtocolImpl {
@@ -17,7 +18,6 @@ class ProtocolImpl {
     private ProtocolMap mProtocolMap = new ProtocolMap();
     private AbsProtocolProcessor mDefaultProcessor;
     private AbsPreProcessor mPreProcessor;
-    private ProtocolCollectGenerator mProtocolGenerator;
 
     private ProtocolImpl() {
         collectProtocols();
@@ -56,14 +56,13 @@ class ProtocolImpl {
      * 收集协议
      */
     private synchronized void collectProtocols() {
-        mProtocolGenerator = new ProtocolCollectGenerator();
+        ProtocolCollectGenerator mProtocolGenerator = new ProtocolCollectGenerator();
         mProtocolGenerator.collect(mProtocolMap);
     }
 
     /**
      * 设置协议预处理器
      *
-     * @param preProcessor
      */
     public void setPreProcessor(AbsPreProcessor preProcessor) {
         mPreProcessor = preProcessor;
@@ -72,7 +71,6 @@ class ProtocolImpl {
     /**
      * 设置默认处理器，在没有注册协议的情况下调用默认处理器
      *
-     * @param processor
      */
     public void setDefaultProcessor(AbsProtocolProcessor processor) {
         mDefaultProcessor = processor;
@@ -84,7 +82,7 @@ class ProtocolImpl {
      * @param context  可以是Application Context或Activity Context.
      * @param protocol 协议URI
      */
-    public synchronized void gotoProtocol(Context context, String protocol) {
+    public synchronized void gotoProtocol(Context context, String protocol, ParamBuilder param) {
         if (mProtocolParser == null) {
             Toast.makeText(context, "Protocol Parser is null!", Toast.LENGTH_SHORT).show();
             return;
@@ -94,16 +92,16 @@ class ProtocolImpl {
             return;
         }
 
-        if (preProcess(context, protocol)) {
+        if (preProcess(context, protocol, param)) {
             return;
         }
 
         String processorClass = mProtocolMap.get(mProtocolParser.parsePath(Uri.parse(protocol)));
         if (TextUtils.isEmpty(processorClass)) {
-            doProcess(context, mDefaultProcessor, protocol);
+            doProcess(context, mDefaultProcessor, protocol, param);
             return;
         }
-        process(context, processorClass, protocol);
+        process(context, processorClass, protocol, param);
     }
 
     private boolean checkProtocol(String protocol) {
@@ -113,17 +111,15 @@ class ProtocolImpl {
         } catch (Exception ignore) {
             return false;
         }
-        if (uri == null) {
-            return false;
-        }
-        return true;
+        return uri != null;
     }
 
-    private boolean preProcess(Context context, String protocol) {
+    private boolean preProcess(Context context, String protocol, ParamBuilder param) {
         if (mPreProcessor == null) {
             return false;
         }
         mPreProcessor.protocol = protocol;
+        mPreProcessor.param = param;
         Uri uri = Uri.parse(protocol);
         mPreProcessor.scheme = uri.getScheme();
         mPreProcessor.host = uri.getHost();
@@ -133,7 +129,7 @@ class ProtocolImpl {
     }
 
 
-    private void process(Context context, String processorClass, String protocol) {
+    private void process(Context context, String processorClass, String protocol, ParamBuilder param) {
         AbsProtocolProcessor processor = mDefaultProcessor;
         try {
             processor = (AbsProtocolProcessor) Class.forName(processorClass).newInstance();
@@ -141,14 +137,15 @@ class ProtocolImpl {
             e.printStackTrace();
         }
         if (processor != null) {
-            doProcess(context, processor, protocol);
+            doProcess(context, processor, protocol, param);
         }
     }
 
 
-    private void doProcess(Context context, AbsProtocolProcessor processor, String protocol) {
+    private void doProcess(Context context, AbsProtocolProcessor processor, String protocol, ParamBuilder param) {
         if (processor != null) {
             processor.protocol = protocol;
+            processor.param = param;
             Uri uri = Uri.parse(protocol);
             processor.scheme = uri.getScheme();
             processor.host = uri.getHost();

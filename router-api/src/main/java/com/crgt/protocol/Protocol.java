@@ -2,6 +2,8 @@ package com.crgt.protocol;
 
 import android.content.Context;
 
+import com.crgt.router.ParamBuilder;
+
 /**
  * 协议框架入口
  *
@@ -23,7 +25,7 @@ public class Protocol {
         ProtocolImpl.getInstance().setDefaultProcessor(processor);
     }
 
-    public static void gotoProtocol(Context context, String protocol) {
-        ProtocolImpl.getInstance().gotoProtocol(context, protocol);
+    public static void gotoProtocol(Context context, String protocol, ParamBuilder param) {
+        ProtocolImpl.getInstance().gotoProtocol(context, protocol, param);
     }
 }

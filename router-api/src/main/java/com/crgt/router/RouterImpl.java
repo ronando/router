@@ -17,12 +17,12 @@ import java.util.List;
 /**
  * 路由具体实现类, 接口基本与Router类保持一致。
  *
- * @author android
- * @date 2019/5/8
- * @mail android@crgecent.com
+ * @author jesse
+ * 2019/5/8
+ * jesse_lu@foxmail.com
  */
 
-public final class RouterImpl {
+final class RouterImpl {
 
     private Application mApplicationContext;
     private RouterRoster mRosterMap;
@@ -41,29 +41,29 @@ public final class RouterImpl {
         mInterceptors = new ArrayList<>();
     }
 
-    public static RouterImpl getInstance() {
+    static RouterImpl getInstance() {
         return INSTANCE_HOLDER.sInstance;
     }
 
-    public void init(Application application) {
+    void init(Application application) {
         mApplicationContext = application;
         collectRoster();
     }
 
-    public void configProtocol(@NonNull IProtocolParser parser) {
+    void configProtocol(@NonNull IProtocolParser parser) {
         mProtocolParser = parser;
     }
 
-    public void setNotFoundHandler(@NonNull RouterNotFoundHandler handler) {
+    void setNotFoundHandler(@NonNull RouterNotFoundHandler handler) {
         mNotFoundHandler = handler;
     }
 
-    public void addInterceptor(@NonNull RouterInterceptor interceptor) {
+    void addInterceptor(@NonNull RouterInterceptor interceptor) {
         mInterceptors.add(interceptor);
     }
 
 
-    public void toProtocol(Context context, String protocol, ParamBuilder params) {
+    void toProtocol(Context context, String protocol, ParamBuilder params) {
         if (mProtocolParser == null) {
             Log.e("Router", "Protocol Parser is null!");
             return;
@@ -77,15 +77,15 @@ public final class RouterImpl {
         if (uri == null) {
             return;
         }
-        String path = mProtocolParser.parsePath(uri);
+        String shortPath = mProtocolParser.parsePath(uri);
         ParamBuilder paramBuilder = params == null ? new ParamBuilder() : params;
         paramBuilder.setRaw(uri);
         paramBuilder.withUriParam(uri);
-        toActivityForResult(context, path, paramBuilder, parseRequestCode(paramBuilder));
+        toActivityForResult(context, shortPath, paramBuilder);
     }
 
 
-    public String getActivityClassName(String name) {
+    String getActivityClassName(String name) {
         String result = mRosterMap.getActivityName(name);
         if (TextUtils.isEmpty(result) && mNotFoundHandler != null) {
             return mNotFoundHandler.getActivityClassName(name);
@@ -93,17 +93,17 @@ public final class RouterImpl {
         return result;
     }
 
-    public void toActivityForResult(final Context context, final String name, @Nullable final ParamBuilder param, final int requestCode) {
+    private void toActivityForResult(final Context context, final String shortPath, @Nullable final ParamBuilder param) {
         // do intercept
         if (mInterceptors.size() > 0) {
-            doIntercept(0, context, name, param, new RouterInterceptor.Callback() {
+            doIntercept(0, context, shortPath, param, new RouterInterceptor.Callback() {
                 @Override
                 public void onContinue() {
                     try {
-                        Intent intent = generateIntent(context, name, param);
-                        gotoStartActivity(context, intent, param, requestCode);
+                        Intent intent = generateIntent(context, shortPath, param);
+                        gotoStartActivity(context, intent, param);
                     } catch (Exception e) {
-                        noActivityFound(name, e.getMessage());
+                        noActivityFound(shortPath, e.getMessage());
                     }
                 }
 
@@ -115,15 +115,15 @@ public final class RouterImpl {
         } else {
             // start activity
             try {
-                Intent intent = generateIntent(context, name, param);
-                gotoStartActivity(context, intent, param, requestCode);
+                Intent intent = generateIntent(context, shortPath, param);
+                gotoStartActivity(context, intent, param);
             } catch (Exception e) {
-                noActivityFound(name, e.getMessage());
+                noActivityFound(shortPath, e.getMessage());
             }
         }
     }
 
-    public String getServiceClassName(String name) {
+    String getServiceClassName(String name) {
         String result = mRosterMap.getServiceName(name);
         if (TextUtils.isEmpty(result) && mNotFoundHandler != null) {
             return mNotFoundHandler.getServiceClassName(name);
@@ -131,7 +131,7 @@ public final class RouterImpl {
         return result;
     }
 
-    public Class getServiceClass(String name) {
+    Class getServiceClass(String name) {
         try {
             return mRosterMap.findService(name);
         } catch (Exception e) {
@@ -143,7 +143,7 @@ public final class RouterImpl {
         return null;
     }
 
-    public String getFragmentClassName(String name) {
+    String getFragmentClassName(String name) {
         String result = mRosterMap.getFragmentName(name);
         if (TextUtils.isEmpty(result) && mNotFoundHandler != null) {
             return mNotFoundHandler.getFragmentClassName(name);
@@ -151,7 +151,7 @@ public final class RouterImpl {
         return result;
     }
 
-    public Class getFragmentClass(String name) {
+    Class getFragmentClass(String name) {
         try {
             return mRosterMap.findFragment(name);
         } catch (Exception e) {
@@ -163,7 +163,7 @@ public final class RouterImpl {
         return null;
     }
 
-    public Object getFragmentInstance(String name) {
+    Object getFragmentInstance(String name) {
         return getFragmentInstance(name, null);
     }
 
@@ -188,11 +188,11 @@ public final class RouterImpl {
         mCollectorGenerator.collect(mRosterMap);
     }
 
-    public void setActivityClassName(String componentName, String activityClassName) {
+    void setActivityClassName(String componentName, String activityClassName) {
         mRosterMap.setActivityClassName(componentName, activityClassName);
     }
 
-    public void setFragmentClassName(String componentName, String fragmentClassName) {
+    void setFragmentClassName(String componentName, String fragmentClassName) {
         mRosterMap.setFragmentClassName(componentName, fragmentClassName);
     }
 
@@ -216,16 +216,16 @@ public final class RouterImpl {
         });
     }
 
-    private Intent generateIntent(Context context, String name, ParamBuilder param)
+    private Intent generateIntent(Context context, String shortPath, ParamBuilder param)
             throws IllegalArgumentException {
-        if (TextUtils.isEmpty(name)) {
+        if (TextUtils.isEmpty(shortPath)) {
             throw new IllegalArgumentException("Router path can not be empty.");
         }
         Class clazz;
         try {
-            clazz = mRosterMap.findActivity(name);
+            clazz = mRosterMap.findActivity(shortPath);
         } catch (Exception ignore) {
-            throw new IllegalArgumentException(name + " can not match correct activity class.");
+            throw new IllegalArgumentException(shortPath + " can not match correct activity class.");
         }
         Intent intent = new Intent(context, clazz);
         if (param != null) {
@@ -244,11 +244,9 @@ public final class RouterImpl {
         return intent;
     }
 
-    private void gotoStartActivity(Context context, Intent intent, ParamBuilder param, int requestCode)
+    private void gotoStartActivity(Context context, Intent intent, ParamBuilder param)
             throws IllegalArgumentException {
-        if (requestCode < 0) {//try extract requestCode from params
-            requestCode = parseRequestCode(param);
-        }
+        int requestCode = parseRequestCode(param);//try extract requestCode from params
         if (requestCode >= 0) {
             if (context instanceof Activity) {
                 ((Activity) context).startActivityForResult(intent, requestCode);
@@ -268,7 +266,6 @@ public final class RouterImpl {
     private void noActivityFound(String path, String errorMsg) {
         if (mNotFoundHandler != null) {
             mNotFoundHandler.noActivityFound(mApplicationContext, path, errorMsg);
-            return;
         }
     }
 
@@ -281,11 +278,19 @@ public final class RouterImpl {
 
     private int parseRequestCode(ParamBuilder params) {
         int DEFAULT_REQUEST_CODE = -1;
-        if (params == null || params.getBundle() == null) {
+
+        if (params == null) {
             return DEFAULT_REQUEST_CODE;
         }
-        String PARAM_REQUEST_CODE = "requestCode";
+        if (params.getRequestCode() >= 0) {//1.参数里设定了requestCode
+            return params.getRequestCode();
+        }
 
+        if (params.getBundle() == null) {
+            return DEFAULT_REQUEST_CODE;
+        }
+        //2.uri里带了requestCode
+        String PARAM_REQUEST_CODE = "requestCode";
         int requestCode = params.getBundle().getInt(PARAM_REQUEST_CODE, DEFAULT_REQUEST_CODE);
         if (requestCode > 0) {
             return requestCode;

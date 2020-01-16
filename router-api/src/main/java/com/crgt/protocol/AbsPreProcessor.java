@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.util.Log;
 
+import com.crgt.router.ParamBuilder;
+
 
 public abstract class AbsPreProcessor {
     /**
@@ -16,6 +18,7 @@ public abstract class AbsPreProcessor {
     public String scheme;
     public String host;
     public String path;
+    public ParamBuilder param;
     private Uri uri;
 
     /**

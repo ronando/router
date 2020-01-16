@@ -1,6 +1,5 @@
 package com.crgt.router;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -63,7 +61,6 @@ public class ParamBuilder {
             Intent.FLAG_INCLUDE_STOPPED_PACKAGES,
             Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION,
             Intent.FLAG_GRANT_PREFIX_URI_PERMISSION,
-            Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET,
             Intent.FLAG_ACTIVITY_RETAIN_IN_RECENTS,
             Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT,
     })
@@ -186,26 +183,17 @@ public class ParamBuilder {
         return this;
     }
 
-    public void toActivity(Context context, String name) {
-        RouterImpl.getInstance().toActivityForResult(context, name, this, -1);
-    }
-
-    public void toActivityForResult(Context context, String name, int requestCode) {
-        RouterImpl.getInstance().toActivityForResult(context, name, this, requestCode);
-    }
-
     public Object getFragmentInstance(String name) {
         return RouterImpl.getInstance().getFragmentInstance(name, this);
     }
 
-    public void withUriParam(Uri uri) {
+
+    void withUriParam(Uri uri) {
         if (uri == null) {
             return;
         }
         Set<String> keys = uri.getQueryParameterNames();
-        Iterator<String> iterator = keys.iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
+        for (String key : keys) {
             List<String> values = uri.getQueryParameters(key);
             if (values != null && values.size() > 0) {
                 this.withString(key, values.get(0));

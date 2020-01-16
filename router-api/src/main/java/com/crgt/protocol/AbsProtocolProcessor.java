@@ -7,13 +7,15 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.util.Log;
 
+import com.crgt.router.ParamBuilder;
+
 
 public abstract class AbsProtocolProcessor {
     public String protocol;
     public String scheme;
     public String host;
     public String path;
-
+    public ParamBuilder param;
     private Uri uri;
 
     public abstract void process(Context applicationOrActivityContext);

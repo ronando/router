@@ -62,10 +62,10 @@ public final class RouterBindUtil {
     }
 
     /**
-     * auto parse uri params, and put data into the bundle
+     * auto parse rawUri params, and put data into the bundle
      *
      * @param clazz activity or fragment class
-     * @param uri uri
+     * @param uri rawUri
      * @param bundle bundle
      */
     public static void autoPutParam(Class<?> clazz, @NonNull Uri uri, @NonNull Bundle bundle) {

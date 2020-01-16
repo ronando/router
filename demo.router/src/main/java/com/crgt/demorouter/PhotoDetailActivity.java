@@ -3,6 +3,7 @@ package com.crgt.demorouter;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -88,16 +89,12 @@ public class PhotoDetailActivity extends BaseInjectActivity {
                 "testSerializable = " + testSerializable + "\n" +
                 "end\n";
         textView.setText(text);
-    }
-
-    @Override
-    public void finish() {
-        setResult(RESULT_OK);
-        super.finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
     }
 }

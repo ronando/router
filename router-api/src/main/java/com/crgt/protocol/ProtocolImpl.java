@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crgt.protocol.model.ProtocolMap;
+import com.crgt.router.IProtocolParser;
 import com.crgt.router.ParamBuilder;
 
 
@@ -17,7 +18,7 @@ class ProtocolImpl {
     private IProtocolParser mProtocolParser;
     private ProtocolMap mProtocolMap = new ProtocolMap();
     private AbsProtocolProcessor mDefaultProcessor;
-    private AbsPreProcessor mPreProcessor;
+    private AbsProtocolProcessor mPreProcessor;
 
     private ProtocolImpl() {
         collectProtocols();
@@ -64,7 +65,7 @@ class ProtocolImpl {
      * 设置协议预处理器
      *
      */
-    public void setPreProcessor(AbsPreProcessor preProcessor) {
+    public void setPreProcessor(AbsProtocolProcessor preProcessor) {
         mPreProcessor = preProcessor;
     }
 
@@ -125,7 +126,7 @@ class ProtocolImpl {
         mPreProcessor.host = uri.getHost();
         mPreProcessor.path = uri.getPath();
         mPreProcessor.setUri(uri);
-        return mPreProcessor.preProcess(context);
+        return mPreProcessor.process(context);
     }
 
 

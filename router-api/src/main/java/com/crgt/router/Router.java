@@ -18,7 +18,7 @@ public final class Router {
         RouterImpl.getInstance().init(application);
     }
 
-    public static void configProtocol(@NonNull IProtocolParser parser) {
+    public static void configRouter(@NonNull IProtocolParser parser) {
         RouterImpl.getInstance().configProtocol(parser);
     }
 

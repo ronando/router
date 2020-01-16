@@ -2,6 +2,7 @@ package com.crgt.router;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 /**
  * default implement of IProtocolParser
@@ -11,7 +12,7 @@ import android.support.annotation.NonNull;
  * @mail android@crgecent.com
  */
 
-public class DefaultProtocolParser implements IProtocolParser {
+public class RouterParser implements IProtocolParser {
 
     private String mScheme;
     private ComponentIdentifier mIdentifier;
@@ -36,14 +37,14 @@ public class DefaultProtocolParser implements IProtocolParser {
      * @param scheme
      * @param componentIdentifier
      */
-    public DefaultProtocolParser(@NonNull String scheme, ComponentIdentifier componentIdentifier) {
+    public RouterParser(@NonNull String scheme, ComponentIdentifier componentIdentifier) {
         mScheme = scheme;
         mIdentifier = componentIdentifier;
     }
 
     @Override
     public String parsePath(@NonNull Uri uri) {
-        if (!mScheme.equals(uri.getScheme())) {
+        if (!TextUtils.isEmpty(uri.getScheme()) && !mScheme.equals(uri.getScheme())) {
             return null;
         }
         if (mIdentifier == ComponentIdentifier.HOST) {

@@ -188,7 +188,7 @@ public class ParamBuilder {
     }
 
 
-    void withUriParam(Uri uri) {
+    public void withUriParam(Uri uri) {
         if (uri == null) {
             return;
         }

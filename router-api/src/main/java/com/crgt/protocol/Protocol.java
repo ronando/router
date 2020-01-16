@@ -2,6 +2,7 @@ package com.crgt.protocol;
 
 import android.content.Context;
 
+import com.crgt.router.IProtocolParser;
 import com.crgt.router.ParamBuilder;
 
 /**
@@ -17,7 +18,7 @@ public class Protocol {
         ProtocolImpl.getInstance().setParser(protocolParser);
     }
 
-    public static void setPreProcessor(AbsPreProcessor preProcessor) {
+    public static void setPreProcessor(AbsProtocolProcessor preProcessor) {
         ProtocolImpl.getInstance().setPreProcessor(preProcessor);
     }
 
@@ -25,7 +26,7 @@ public class Protocol {
         ProtocolImpl.getInstance().setDefaultProcessor(processor);
     }
 
-    public static void gotoProtocol(Context context, String protocol, ParamBuilder param) {
+    public static void to(Context context, String protocol, ParamBuilder param) {
         ProtocolImpl.getInstance().gotoProtocol(context, protocol, param);
     }
 }

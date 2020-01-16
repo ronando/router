@@ -229,7 +229,7 @@ final class RouterImpl {
         }
         Intent intent = new Intent(context, clazz);
         if (param != null) {
-            // auto parse uri param
+            // auto parse rawUri param
             if (param.getRawUri() != null) {
                 RouterBindUtil.autoPutParam(clazz, param.getRawUri(), param.getBundle());
             }

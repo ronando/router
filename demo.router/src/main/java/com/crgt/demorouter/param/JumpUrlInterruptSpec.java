@@ -46,7 +46,7 @@ public class JumpUrlInterruptSpec implements IParamInterruptSpec {
             try {
                 pagePath = Uri.parse(param.getBundle().getString(TAG_PAGE));
             } catch (Exception e) {
-                Log.e("JumpUrlInterruptSpec", "parsePagePath uri illegal");
+                Log.e("JumpUrlInterruptSpec", "parsePagePath rawUri illegal");
             }
         }
         return pagePath;

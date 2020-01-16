@@ -16,13 +16,11 @@ import com.crgt.protocol.annotation.ProtocolPath;
 @ProtocolPath(path = {"fragment_activity", "path2/mainactivity"})
 public class CustomProcessor extends AbsProtocolProcessor {
     @Override
-    public void process(Context context) {
+    public boolean process(Context context) {
         //do something
         Toast.makeText(context,"自定义协议处理器处理中...", Toast.LENGTH_SHORT).show();
+        return true;
     }
 
-    @Override
-    public void parseParameters() {
 
-    }
 }

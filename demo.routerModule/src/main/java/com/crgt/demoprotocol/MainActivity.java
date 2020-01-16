@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.crgt.demo.R;
-import com.crgt.protocol.DefaultProtocolParser;
 import com.crgt.protocol.Protocol;
 
 
@@ -23,30 +22,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initProtocols();
     }
 
-    private void initProtocols() {
-        Protocol.setParser(new DefaultProtocolParser("in", DefaultProtocolParser.ComponentIdentifier.HOST));
-        Protocol.setPreProcessor(new PreProcessor());
-        Protocol.setDefaultProcessor(new DefaultProcessor());
-    }
+
 
     public void gotoNonexistProtocol(View view) {
-        Protocol.gotoProtocol(this,"in://xxx_non_exist",null);
+        Protocol.to(this,"in://xxx_non_exist",null);
 
     }
 
     public void gotoCustomProtocol(View view) {
-        Protocol.gotoProtocol(this,"in://fragment_activity",null);
+        Protocol.to(this,"in://fragment_activity",null);
     }
 
     public void gotoOtherModuleProtocol(View view) {
-        Protocol.gotoProtocol(this,"in://module2",null);
+        Protocol.to(this,"in://module2",null);
     }
 
     public void gotoDefaultProtocol(View view) {
-        Protocol.gotoProtocol(this,"in://main",null);
+        Protocol.to(this,"in://main",null);
     }
 
     public void setPreprocessor(View view) {

@@ -16,7 +16,7 @@ public interface IMethodParser {
     /**
      * 解析服务path
      *
-     * @param rawUri 服务端下发的provider uri
+     * @param rawUri 服务端下发的provider rawUri
      * @return 服务提供者路径
      */
     String getServicePath(Uri rawUri);
@@ -24,7 +24,7 @@ public interface IMethodParser {
     /**
      * 解析获取具体方法名称
      *
-     * @param rawUri 服务端下发的provider uri
+     * @param rawUri 服务端下发的provider rawUri
      * @return 具体方法名称
      */
     String getMethodName(Uri rawUri);
@@ -32,7 +32,7 @@ public interface IMethodParser {
     /**
      * 解析获取参数
      *
-     * @param rawUri 服务端下发的provider uri
+     * @param rawUri 服务端下发的provider rawUri
      * @return 服务端下发的uri 里面包含的参数
      */
     Map<String, String> getInputParams(Uri rawUri);

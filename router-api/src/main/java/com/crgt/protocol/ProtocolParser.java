@@ -2,6 +2,8 @@ package com.crgt.protocol;
 
 import android.net.Uri;
 
+import com.crgt.router.IProtocolParser;
+
 /**
  * default implement of IProtocolParser
  *
@@ -10,12 +12,14 @@ import android.net.Uri;
  * @mail jesse.lu@foxmail.com
  */
 
-public class DefaultProtocolParser implements IProtocolParser {
+public class ProtocolParser implements IProtocolParser {
 
     private String mScheme;
     private ComponentIdentifier mIdentifier;
 
     public enum ComponentIdentifier {
+        ALL,
+        SCHEME,
         HOST,
         PATH,
         HOST_AND_PATH
@@ -36,13 +40,19 @@ public class DefaultProtocolParser implements IProtocolParser {
      * @param scheme
      * @param componentIdentifier
      */
-    public DefaultProtocolParser(String scheme, ComponentIdentifier componentIdentifier) {
+    public ProtocolParser(String scheme, ComponentIdentifier componentIdentifier) {
         mScheme = scheme;
         mIdentifier = componentIdentifier;
     }
 
     @Override
     public String parsePath(Uri uri) {
+
+        if (mIdentifier == ComponentIdentifier.SCHEME) {
+            return uri.getScheme();
+        } else if (mIdentifier == ComponentIdentifier.ALL) {
+            return uri.getScheme() + "://" + uri.getHost() + "/" + uri.getPath();
+        }
         if (!mScheme.equals(uri.getScheme())) {
             return null;
         }

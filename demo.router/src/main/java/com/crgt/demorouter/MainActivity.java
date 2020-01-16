@@ -1,10 +1,8 @@
 package com.crgt.demorouter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +10,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crgt.demorouter.param.JumpUrlInterruptSpec;
-import com.crgt.router.DefaultProtocolParser;
+import com.crgt.protocol.Protocol;
 import com.crgt.router.ParamBuilder;
 import com.crgt.router.Router;
-import com.crgt.router.RouterInterceptor;
-import com.crgt.router.RouterNotFoundHandler;
 import com.crgt.router.RouterPath;
-import com.crgt.router.autofillparam.ParamAutoFillInterceptor;
 
 import java.util.ArrayList;
 
@@ -26,55 +21,21 @@ import java.util.ArrayList;
  * route demo activity
  *
  * @author android
- * @date 2019/5/7
- * @mail android@crgecent.com
+ * 2019/5/7
+ * android@crgecent.com
  */
 
 @RouterPath(path = "main")
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        configRouter();
+        new Configer().config(this.getApplication());
     }
 
-    private void configRouter() {
-        Router.init(getApplication());
-        Router.configProtocol(new DefaultProtocolParser("crgt", DefaultProtocolParser.ComponentIdentifier.PATH));
-        Router.setNotFoundHandler(new RouterNotFoundHandler() {
-            @Override
-            public void noActivityFound(Context appContext, String path, String errorMsg) {
-                Toast.makeText(appContext, "Custom msg: " + path + " not found", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Router.addInterceptor(new RouterInterceptor() {
-            @Override
-            public void intercept(Context context, String componentName, @Nullable ParamBuilder param, Callback callback) {
-                callback.onContinue();
-            }
-        });
-        Router.addInterceptor(new RouterInterceptor() {
-            @Override
-            public void intercept(Context context, String componentName, @Nullable ParamBuilder param, Callback callback) {
-                if ("intercept_test".equals(componentName)) {
-                    toastMsg("Activity was intercepted");
-                    callback.onIntercept();
-                } else {
-                    callback.onContinue();
-                }
-            }
-        });
 
-        Router.addInterceptor(new ParamAutoFillInterceptor(new JumpUrlInterruptSpec()) {
-            @Override
-            public void intercept(Context context, String componentName, @Nullable ParamBuilder param, @NonNull Callback callback) {
-                super.intercept(context, componentName, param, callback);
-            }
-        });
-    }
 
 
     public void gotoSimpleActivity(View view) {
@@ -109,28 +70,30 @@ public class MainActivity extends AppCompatActivity {
                 .withParcelableArrayList("testParcelableArrayList", parcelableArrayList)
                 .withSerializable("testSerializable", new TestSerializable(123, "test"))
                 .withBundle("testBundle", new Bundle());
-        Router.toActivity(this, "photo_detail", params);
+        Protocol.to(this, "photo_detail", params);
     }
 
     public void gotoActivityForResult(View view) {
         ParamBuilder paramBuilder = Router.buildParams().withInt("aaa", 123);
-        Router.toActivity(this, "photo_detail", paramBuilder);
+        paramBuilder.setRequestCode(111);
+        paramBuilder.withInt("requestCode", 111);
+        Protocol.to(this, "photo_detail", paramBuilder);
     }
 
     public void gotoActivityWithFragment(View view) {
-        Router.toActivity(this, "fragment_activity", null);
+        Protocol.to(this, "fragment_activity", null);
     }
 
     public void gotoActivityOtherModule(View view) {
-        Router.toActivity(this, "module_test", null);
+        Protocol.to(this, "module_test", null);
     }
 
     public void gotoNotExistActivity(View view) {
-        Router.toActivity(this, "error", null);
+        Protocol.to(this, "error", null);
     }
 
     public void gotoInterceptActivity(View view) {
-        Router.toActivity(this, "intercept_test", null);
+        Protocol.to(this, "intercept_test", null);
     }
 
     public void gotoGetFragment(View view) {
@@ -151,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoProtocol(View view) {
-        Router.toActivity(this, "crgt://ccrgt.com/photo_detail?photo_id=123&content=hahahahaha&testBoolean=true&testFloat=3.1415", null);
+        Protocol.to(this, "crgt://ccrgt.com/photo_detail?photo_id=123&content=hahahahaha&testBoolean=true&testFloat=3.1415", null);
     }
 
     @Override
@@ -167,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void autoFillParam(View view) {
-        Router.toActivity(this, JumpUrlInterruptSpec.ROUTER_PROVIDR_URL, null);
+        Protocol.to(this, JumpUrlInterruptSpec.ROUTER_PROVIDR_URL, null);
+    }
+
+    public void gotoWebview(View view) {
+        Protocol.to(this,"http://www.baidu.com",null);
     }
 }

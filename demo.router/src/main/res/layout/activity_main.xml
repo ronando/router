@@ -68,6 +68,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="http://www.baidu.com"
+            android:onClick="gotoWebview" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="自动填充参数后跳转"
             android:onClick="autoFillParam" />
 

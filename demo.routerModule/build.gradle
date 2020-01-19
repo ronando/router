@@ -37,7 +37,7 @@ dependencies {
 //    implementation project(path: ':router-api')
 //    annotationProcessor project(path: ':router-compiler')
 
-    implementation "com.crgt.android:base-router-api:1.3.0"
+    implementation "com.crgt.android:base-router-api:1.3.1"
     annotationProcessor "com.crgt.android:base-router-compiler:1.3.0"
 }
 

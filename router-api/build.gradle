@@ -33,7 +33,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation "com.android.support:support-v4:${support_lib_version}"
 //    api project(path: ':router-annotation')
-    implementation   'com.crgt.android:base-router-annotation:1.3.0'
+    implementation   'com.crgt.android:base-router-annotation:1.3.1'
 
 }
 

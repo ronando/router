@@ -20,6 +20,14 @@ public abstract class AbsProtocolProcessor {
 
     }
 
+    public String getParameter(String key) {
+        if (rawUri == null) {
+            return null;
+        } else {
+            return rawUri.getQueryParameter(key);
+        }
+    }
+
     public void setUri(Uri uri) {
         this.rawUri = uri;
     }

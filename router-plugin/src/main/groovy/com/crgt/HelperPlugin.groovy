@@ -25,7 +25,7 @@ class HelperPlugin implements Plugin<Project> {
                 }
 
                 if (it.plugins.hasPlugin("com.android.application") || it.plugins.hasPlugin("com.android.library")) {
-                    it.dependencies.add('implementation', "com.crgt.android:base-router-api:1.3.2")
+                    it.dependencies.add('implementation', "com.crgt.android:base-router-api:1.3.3")
                     it.dependencies.add('annotationProcessor', "com.crgt.android:base-router-compiler:1.3.0")
 
                     it.android.defaultConfig.javaCompileOptions.annotationProcessorOptions.argument('moduleName', it.name)

@@ -29,3 +29,6 @@
 -keep class com.crgt.router.autofillparam.IParamProvider{
   void provideParam(...);
 }
+
+-keep class * extends com.crgt.protocol.AbsProtocolProcessor{*;}
+-keep class com.crgt.protocol.annotation.ProtocolPath

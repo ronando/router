@@ -32,10 +32,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.bt_gotokotlin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoKotlinActivity(v);
+            }
+        });
         new Configer().config(this.getApplication());
     }
-
-
 
 
     public void gotoSimpleActivity(View view) {
@@ -134,6 +138,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoWebview(View view) {
-        Protocol.to(this,"http://www.baidu.com",null);
+        Protocol.to(this, "http://www.baidu.com", null);
+    }
+
+    public void gotoKotlinActivity(View view) {
+//        Intent intent = new Intent();
+//        intent.setClassName(this, "com.example.kotlinmodule.MainActivity");
+//        startActivity(intent);
+        Protocol.to(this, "module_kotlin_activity", null);
     }
 }

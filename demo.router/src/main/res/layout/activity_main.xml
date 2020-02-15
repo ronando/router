@@ -77,5 +77,12 @@
             android:text="自动填充参数后跳转"
             android:onClick="autoFillParam" />
 
+        <Button
+            android:id="@+id/bt_gotokotlin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="跳转kotlin activity" />
+
+
     </LinearLayout>
 </ScrollView>

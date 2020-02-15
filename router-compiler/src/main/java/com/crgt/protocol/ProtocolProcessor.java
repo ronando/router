@@ -38,7 +38,6 @@ import com.crgt.protocol.utils.Logger;
  * @mail： jesse.lu@foxmail.com
  */
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class ProtocolProcessor extends AbstractProcessor {
 
     private String moduleName;
@@ -53,7 +52,7 @@ public class ProtocolProcessor extends AbstractProcessor {
         super.init(processingEnvironment);
         mFiler = processingEnvironment.getFiler();
         logger = new Logger(processingEnvironment.getMessager());
-        Elements elementUtil = processingEnvironment.getElementUtils();
+        Elements elementUtil = processingEnv.getElementUtils();
         iCollector = elementUtil.getTypeElement(Constants.PROTOCOL_COLLECT_INTERFACE).asType();
         absProtocolProcessor = elementUtil.getTypeElement(Constants.PROTOCOL_PROCESSOR_INTERFACE).asType();
 

@@ -2,6 +2,6 @@
     package="com.crgt.demo" >
 
     <application>
-        <activity android:name=".ModuleActivity" />
+        <activity android:name=".KotlinActivity2" />
     </application>
 </manifest>

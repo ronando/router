@@ -23,5 +23,6 @@
         <activity android:name=".InterceptTestActivity" />
 
         <activity android:name=".TestFragmentActivity" />
+        <activity android:name=".KotlinActivity" />
     </application>
 </manifest>

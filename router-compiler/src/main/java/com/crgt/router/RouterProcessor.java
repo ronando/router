@@ -36,7 +36,6 @@ import static javax.lang.model.element.Modifier.PUBLIC;
  */
 
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class RouterProcessor extends AbstractProcessor {
     private static final String TAG = RouterProcessor.class.getSimpleName();
 

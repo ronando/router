@@ -97,7 +97,11 @@ class ProtocolImpl {
             return;
         }
 
-        String processorClass = mProtocolMap.get(mProtocolParser.parsePath(Uri.parse(protocol)));
+        Uri uri = Uri.parse(protocol);
+        String processorClass = mProtocolMap.get(mProtocolParser.parsePath(uri));
+        if (TextUtils.isEmpty(processorClass)) {
+            processorClass = mProtocolMap.get(uri.getScheme());
+        }
         if (TextUtils.isEmpty(processorClass)) {
             doProcess(context, mDefaultProcessor, protocol, param);
             return;
